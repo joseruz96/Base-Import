@@ -503,7 +503,25 @@ class Import(models.TransientModel):
             if any(x for x in row if x.strip())
         ]
 
-        sodimac = [ '850594', '850624', '850640', '850756', '635596', '850829', '850888', '755044', '310530', '310549', '376175', '376183', '376221', '37623X', '376256', '6319']
+        sodimac = [ '850594',
+                    '850624',
+                    '850640',
+                    '850756',
+                    '635596',
+                    '850829',
+                    '850888',
+                    '755044',
+                    '310530',
+                    '310549',
+                    '376175',
+                    '376183',
+                    '376221',
+                    '37623X',
+                    '376256',
+                    '6319',
+                    '376191',
+                    '537918'
+                ]
         SKU = [ 'RSCP010002320', 
                 'RSCP010003320',
                 'RSCP010004320',
@@ -519,21 +537,26 @@ class Import(models.TransientModel):
                 'AVDM010008320',
                 'AVDM020002320',
                 'AVDM020003320',
-                'AVVL020003320'
+                'AVVL020003320',
+                'AVDM010005320',
+                'RSCP020006320'
             ]
         countX = 0
         nSku = 0
+        nCantidad = 0
         for x in content:
             countY = 0
             for y in x:
                 if y == "NRO_OC":
                      content[countX][countY] = "Documento Origen"
+                if y == "CANTIDAD_PROD":
+                    nCantidad = countY
                 if y == "SKU":
                     content[countX][countY] = "Líneas del Pedido/Producto"     
                     nSku = countY
                 #if y == "13458049":
                  #   content[countX][countY] = "Desk Organizer"
-                if countY != nSku  and countX > 1:
+                if countY != nSku  and countX > 1 and nCantidad != countY:
                     content[countX][countY] = ""
                 countZ = 0
                 for z in sodimac:
